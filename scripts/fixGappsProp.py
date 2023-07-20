@@ -79,15 +79,15 @@ def fix_prop(sec, prop):
             p[f"ro.{k[0]}.{sec}.{k[1]}"] = v
 
     p["ro.build.description"] = description(sec, p)
-    p[f"ro.build.fingerprint"] = fingerprint(sec, p)
+    p["ro.build.fingerprint"] = fingerprint(sec, p)
     p[f"ro.{sec}.build.description"] = description(sec, p)
     p[f"ro.{sec}.build.fingerprint"] = fingerprint(sec, p)
-    p[f"ro.bootimage.build.fingerprint"] = fingerprint(sec, p)
+    p["ro.bootimage.build.fingerprint"] = fingerprint(sec, p)
 
     with open(prop, 'w') as f:
-        f.write(str(p))
+        f.write(p)
 
 
 sys_path = sys.argv[1]
-for sec, prop in {"system": sys_path+"/system/build.prop", "product": sys_path+"/product/build.prop", "system_ext": sys_path+"/system_ext/build.prop", "vendor": sys_path+"/vendor/build.prop", "odm": sys_path+"/vendor/odm/etc/build.prop"}.items():
+for sec, prop in {"system": f"{sys_path}/system/build.prop", "product": f"{sys_path}/product/build.prop", "system_ext": f"{sys_path}/system_ext/build.prop", "vendor": f"{sys_path}/vendor/build.prop", "odm": f"{sys_path}/vendor/odm/etc/build.prop"}.items():
     fix_prop(sec, prop)
